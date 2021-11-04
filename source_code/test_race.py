@@ -341,7 +341,7 @@ def main():
 
 
     config = AlbertConfig.from_pretrained(args.config_file, num_labels=4)
-    model = AlbertForMultipleChoice.from_pretrained(args.bert_model, config=config)    
+    model = AlbertForMultipleChoice.from_pretrained(args.pretrained_model, config=config)    
 
     model.to(device)
 
@@ -350,8 +350,10 @@ def main():
         test_dir = os.path.join(args.data_dir, 'test')
         results = {}
         for fid in range(500):
-            s = str(fid).zfill(5)
-            fname = test_dir+'/asc'+s+'.txt'
+            s = str(fid).zfill(4)
+            print('HOLA',s)
+            #fname = test_dir+'/asc'+s+'.txt'
+            fname = test_dir+'/asc'+s+'.json'
             eval_examples = read_race_example(fname)
             eval_features = convert_examples_to_features(eval_examples, tokenizer, args.max_seq_length, True)
             all_input_ids = torch.tensor(select_field(eval_features, 'input_ids'), dtype=torch.long)
